@@ -1,0 +1,126 @@
+/******  基本ブロック  ******/                       
+  #panel {
+    background: rgb(230, 230, 230);  
+    width:700px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  #header {
+    background: rgb(255, 255, 255);      
+  }  
+  #header div.title {
+    font-size: 200%;
+  }
+
+  #sideBar {
+    background: rgb(230, 230, 230);  
+    width:200px;
+    float: right;
+  }
+
+  #main {
+    background: rgb(230, 230, 230);  
+  
+    width: 500px;
+    float: right;
+  }
+  #footer {
+    background: rgb(230, 230, 230);  
+    width:100%;
+    clear:left;
+  }
+
+
+/***** blog.vm ******/
+  div.tagList {
+    background: rgb(255, 255, 255);
+    margin:  10 10 10 10;
+    padding:  10 10 10 10;
+  }
+  
+  div.entry { 
+    background: rgb(255, 255, 255);
+    margin:  20 20 20 20;
+    padding:  5 5 5 5;
+  }
+
+  div.entry div.header { 
+    margin:  0 10 0 10;
+  }
+
+  span.title {
+    font-size: 150%;
+    font-weight:bold;  
+  }
+
+  span.title a {
+    color: black;
+    text-decoration: none;
+  }
+
+  div.entry div.text { 
+    margin:  2 10 2 10;
+    padding: 5 5 5 5;
+    border-style: solid;
+    border-color: rgb(180, 180, 180);
+    border-width: thin;
+  }
+  div.entry div.footer {
+    margin:  3 10 0 10;
+  }
+  
+  div.blog {
+    width: 500px;
+    margin: 10 10 10 10;
+    padding: 5 5 5 5;
+    background: rgb(200, 200, 200);    
+  }
+  div.blog  span.name {
+    font-size: 200%; 
+    font-weight: bold;
+  }  
+  div.blog div.config {
+    margin-left: 50px;
+    font-size: 80%;
+    color: rgb(70, 70, 70); 
+  }  
+  div.blog span.name a {
+    text-decoration: none;
+    color: black;
+  }
+  div.picture {
+    width: 400px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  a {
+    font-size: 100%;
+  }
+  span.right {
+    float: right;
+    margin-right: 3px; 
+    margin-left: 3px; 
+  }
+  span.note {
+    margin: 0 3 0 3;
+    font-size: 70%;
+    color: rgb(100, 100, 100);
+  }
+  span.tag a{
+    margin: 0 3 0 3;
+    font-size: 60%;
+    color: rgb(100, 100, 100);
+    text-decoration: none;
+  }
+
+  span.backLink {
+    float: left;
+  }
+  span.foreLink {
+    float: right;
+  } 
+  
+  

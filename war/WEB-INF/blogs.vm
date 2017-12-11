@@ -1,0 +1,105 @@
+<html>  
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" href="/blog.css" media="all" type="text/css">
+  <title> $blog.key </title>
+</head>
+<body>
+<div id="panel">
+  <div id="header">
+    <div class="topLine">
+      <span><a href="/home">home</a></span>
+      <span class="right">
+        #if ($user)
+          <span> $user </span>
+          #if ($isOwner)
+            <span ><a href="/createBlogEntry">投稿</a> </span>
+          #end
+            <span > <a href="$signOutUrl">logout</a> </span>
+        #else
+          <span> <a href="$signInUrl">login</a> </span>
+        #end
+      </span>
+      <div class="title">
+        $blog.key
+      </div>
+    </div>
+  </div>
+  
+  <div id="sideBar">
+    <div class="tagList">
+      タグ
+      #foreach ($tag in $blog.tagCount.keySet())
+         #if ($blog.tagCount.get($tag) != 0) 
+          <li> <a href="/blogs/$blog.key?searchTag=$tag"> $_htmlEscape.escape($tag) ($blog.tagCount.get($tag)) </a> 
+          </li> 
+         #end
+      #end 
+    </div>
+  </div>
+  
+  <div id="main">
+    #if ($searchTag) 
+      $_htmlEscape.escape($searchTag) でフィルタリングしています．<a target="_self" href="/blogs/$blog.key">解除</a>
+    #end
+  
+  #foreach ($entry in $entries)
+    <div class="entry"> 
+      $_dateFormat.format($entry.date)   
+      <div class="header">
+         <span class="title"> 
+           <a href="/blogs/$blog.key?entryId=$entry.getKeyInString()"> 
+           $_htmlEscape.escape($entry.title) </a> </span> 
+         #foreach ($tag in $entry.tags) 
+           <span class="tag">
+             <a href="/blogs/$blog.key?searchTag=$tag">
+               $_htmlEscape.escape($tag)
+             </a>
+           </span>
+         #end
+      </div>
+      <div class="text">$_htmlEscape.escapeAndTag($entry.text.value)</div>
+      #foreach ($image in $entry.images)  
+        <div class="picture"> <img src="/image/$image.getKeyAsString()"/> </div>
+      #end
+      
+       #if ($isOwner)
+       <div class="footer">
+          <span class="note">
+          <a href="/createBlogEntry?entryId=$entry.getKeyInString()">編集</>
+          </span>
+          
+          <a href="/confirmationDialog?accept=/deleteBlogEntryHandler&cancel=/blogs&message=エントリを削除します．よろしいですか？&blogName=$blog.key&entryId=$entry.getKeyInString()">
+          <span class="note">
+          削除
+          </span>
+          </a> 
+      </div>
+      #end
+    </div>
+  #end
+   <div class="backForeLinks">
+    <span class="backLink">
+      #if ($withBackLink)
+        <p><a href="#" onClick="history.back(); return false;">新しい投稿</a></p>
+      #end
+    </span>
+    <span class="foreLink">
+      #if ($searchTag)
+        #set ( $searchLink = "&searchTag=$searchTag" )  
+      #else
+        #set ( $searchLink = "")
+      #end
+      #if ($next)
+        <p><a href="/blogs/$blog.key?before=$next.date.time$searchLink">古い投稿</a></p>
+      #end
+    </span>
+   </div>
+  </div>
+  <div id="footer">
+  </div>
+  
+</div>
+</body>
+</html>
+

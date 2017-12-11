@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/64/trunk/16-blog/src/gaebook/util
+END
+ImageEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/64/trunk/16-blog/src/gaebook/util/ImageEntity.java
+END
+TransactionManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/64/trunk/16-blog/src/gaebook/util/TransactionManager.java
+END
+ImageUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/64/trunk/16-blog/src/gaebook/util/ImageUtil.java
+END
+PMF.java
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/64/trunk/16-blog/src/gaebook/util/PMF.java
+END
+HtmlEscape.java
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/64/trunk/16-blog/src/gaebook/util/HtmlEscape.java
+END
+ErrorPage.java
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/64/trunk/16-blog/src/gaebook/util/ErrorPage.java
+END
+Renderer.java
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/64/trunk/16-blog/src/gaebook/util/Renderer.java
+END
+ImageDisplay.java
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/64/trunk/16-blog/src/gaebook/util/ImageDisplay.java
+END
+ConfirmationDialog.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/64/trunk/16-blog/src/gaebook/util/ConfirmationDialog.java
+END

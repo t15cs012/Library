@@ -1,0 +1,103 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+  <link rel="apple-touch-icon" href="../iui/iui-logo-touch-icon.png" />
+  <meta name="apple-touch-fullscreen" content="YES" />
+  <style type="text/css" media="screen">@import "../iui/iui.css";</style>
+  <script type="application/x-javascript" src="../iui/iui.js"></script>
+    <script><!--
+    function toggle_switch(itemId) {
+      var value = document.all(itemId).value;
+      if (value == "on") {
+         value = "off";
+      } else {
+         value = "on";
+      }
+      document.all(itemId).value = value;
+    }
+   --></script>   
+  <title> BLOG System </title>
+</head>
+<body>
+
+<div class="toolbar">
+    <h1 id="pageTitle"></h1>
+    <a id="backButton" class="button" href="#"></a>
+    #if ($user)
+      <a class="button" href="$signOutUrl" target="_self">Logout</a>    
+    #else
+      <a class="button" href="$signInUrl" target="_self">Login</a>
+    #end
+</div>
+
+<ul id="root" title="Ya BLOG" selected="true">
+    #if ($user)
+    <li> <a href="#createBlog">新しいブログ</a></li>
+    #end
+    #foreach ($blog in $blogs)
+      #if ($user)
+        <li><a href="#blog$velocityCount">$blog.key</a></li>
+      #else
+        <li><a href="/blogs/$blog.key" target="_self"> $blog.key </a></a> 
+      #end
+    #end
+</ul>
+
+<div id="createBlog" title="ブログの作成" class="panel"> 
+  <form action="/createBlogHandler" method="post" target=_self">
+    <h2> 希望ブログ名を入力してください</h2>
+    <fieldset>
+            <div class="row">
+                <label>ブログ名</label>
+                <input type="text" name="blogName">
+            </div>
+    </fieldset>
+    <a class="whiteButton" type="submit" >Submit</a>
+  </form>
+</div>
+
+
+  #foreach ($blog in $blogs)
+     <ul id="blog$velocityCount" title="$blog.key">
+        <li><a href="/blogs/$blog.key" target="_self">ページへ</a></li>
+        <li><a href="/createBlogEntry?blogName=$blog.key">投稿</a></li>
+        <li><a href="#config$velocityCount">設定</a></li>
+        <li><a target="_self" href="/confirmationDialog?accept=/deleteBlogHandler&cancel=/home&message=ブログを削除します．よろしいですか？&blogName=$blog.key">ブログを削除</a></li>
+     </ul>
+
+
+    <form id="config$velocityCount" title="設定" class="panel" action="/configBlogHandler" method="POST" target="_self">
+      <input type="hidden" name="blogName" value="$blog.key"/>
+      <input id="mailOn$blog.key" type="hidden" name="useMail" 
+          #if ($blog.useMail) value="on" #else value="off" #end       
+      />      
+      <h2>ページ設定</h2>
+        <fieldset>
+            <div class="row">
+                <label>記事数</label>
+                <input type="text" name="perPage" value="$blog.perPage"/>
+            </div>
+        </fieldset>
+        <h2>メイル設定</h2>
+
+          <fieldset>
+            <div class="row">
+                <label>メイル投稿を有効にする</label>
+                <div class="toggle" #if ($blog.useMail) toggled="true" #end 
+                 onclick="toggle_switch('mailOn$blog.key')">
+                   <span class="thumb"></span>
+                   <span class="toggleOn">ON</span>
+                   <span class="toggleOff">OFF</span>
+                </div>
+            </div>
+            <div class="row" style="float: left;">
+              $mailPrefix .<input type="text" name="mailPostFix" value="$blog.mailPostFix" length="10"/> @ $mailDomain 
+            </div>
+        </fieldset>
+        <a class="whiteButton" type="submit" href="#">決定</a>
+     </form>
+  #end
+</body>
+</html>
+

@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/64/trunk/16-blog/src/gaebook/blog
+END
+DeleteBlogHandler.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/64/trunk/16-blog/src/gaebook/blog/DeleteBlogHandler.java
+END
+BlogEntry.java
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/64/trunk/16-blog/src/gaebook/blog/BlogEntry.java
+END
+CreateBlogHandler.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/64/trunk/16-blog/src/gaebook/blog/CreateBlogHandler.java
+END
+DeleteBlogEntryHandler.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/64/trunk/16-blog/src/gaebook/blog/DeleteBlogEntryHandler.java
+END
+Blogs.java
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/64/trunk/16-blog/src/gaebook/blog/Blogs.java
+END
+CreateBlogEntryHandler.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/64/trunk/16-blog/src/gaebook/blog/CreateBlogEntryHandler.java
+END
+ConfigBlogHandler.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/64/trunk/16-blog/src/gaebook/blog/ConfigBlogHandler.java
+END
+Home.java
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/64/trunk/16-blog/src/gaebook/blog/Home.java
+END
+CreateBlogEntry.java
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/64/trunk/16-blog/src/gaebook/blog/CreateBlogEntry.java
+END
+MailHandler.java
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/64/trunk/16-blog/src/gaebook/blog/MailHandler.java
+END
+Blog.java
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/64/trunk/16-blog/src/gaebook/blog/Blog.java
+END

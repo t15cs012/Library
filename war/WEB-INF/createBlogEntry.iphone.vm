@@ -1,0 +1,29 @@
+
+<div class="panel" title="$blogName">
+<form   
+  action="/createBlogEntryHandler" method="post" enctype="multipart/form-data" target="_self"> 
+  <h2>$blogName</h2>
+  <fieldset>
+  <div class="row">
+    <label>タイトル</label> 
+    <input type="text" name="title" value="$title"><br/>
+  </div>
+  <textarea name="content" rows="5" cols="40" >$text</textarea> <br/>
+  <div class="row">
+    <label>タグ</label> 
+    <input type="text" name="tags" value="$tags"/><br/>
+  </div>
+  
+    #if ($images)
+      #foreach ($image in $images) 
+        <div>
+          <input type="checkbox" name="preservePic$velocityCount" value="$image.getKeyAsString()" checked="true"/> 
+          $image.getName(); 
+        </div>
+      #end
+    #end  
+
+  </fieldset>
+  <a class="whiteButton" type="submit" href="#">Submit</a>
+</form>
+</div>

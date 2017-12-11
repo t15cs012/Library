@@ -1,0 +1,37 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" href="/blog.css" media="all" type="text/css">
+  <title> Library System </title>
+</head>
+<body>
+  <div id="panel">
+    <div id="header">
+      <span style="font-size: 200%"> Library System</span>
+    </div>
+  </div>
+  <br><br>
+  <div>
+    <p>
+      <input type="button" value="利用者登録" onclick="">
+      <input type="button" value="利用者情報" onclick="">
+    </p>
+    <p>
+      <input type="button" value="図書貸出" onclick="">
+      <input type="button" value="図書返却" onclick="">
+    </p>
+    <p>
+      <input type="button" value="図書検索" onclick="">
+    </p>
+  </div>
+  <br>
+  <div>
+    <p>
+      <input type="button" value="図書登録" onclick="">
+      <input type="button" value="図書貸出状況" onclick="">
+    </p>
+  </div>
+
+</body>
+</html>
+

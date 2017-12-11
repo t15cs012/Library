@@ -1,0 +1,20 @@
+<html>
+<body>
+  <span style="font-size: 200%">Memo</span>
+  <span> for '$user' </span> 
+  <a href="$signOutUrl">logout</a>
+  <form action="/new" method="post">
+    <div>
+      <textarea name="content" rows="2" cols="40" ></textarea>
+    </div>
+    <input type="submit" value="Submit" />
+  </form>
+  #foreach ($memo in $memos)
+    <div>
+      <span class="date"> $_datetimeFormat.format($memo.date) </span>
+      <pre> $memo.content</pre>
+    </div>
+  #end
+</body>
+</html>
+
