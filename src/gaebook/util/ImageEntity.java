@@ -10,8 +10,6 @@ import com.google.appengine.api.images.Image;
 import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.appengine.api.images.Transform;
 
-import gaebook.library.BlogEntry;
-
 /* 画像をデータストア内にblobとして保持 */
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class ImageEntity {
@@ -32,7 +30,6 @@ public class ImageEntity {
 	@Persistent private Blob      blob;
 	@Persistent private Integer   formatOrdinal;
 	@Persistent private String    name;
-	@Persistent private BlogEntry entry;
 
 	public Key getKey() {
 		return key;
@@ -64,15 +61,6 @@ public class ImageEntity {
 		this.name = name;
 	}
 
-	public BlogEntry getEntry() {
-		return entry;
-	}
-
-	public void setEntry(BlogEntry entry) {
-		this.entry = entry;
-	}
-
-
 	public String getName() {
 		return name;
 	}
@@ -88,16 +76,6 @@ public class ImageEntity {
 
 	public String getContentType() {
 		return contentTypeMap.get(this.formatOrdinal);
-	}
-
-
-	public ImageEntity(byte[] bytes, int isbn) {
-		Image image = ImagesServiceFactory.makeImage(bytes);
-		Transform resize = ImagesServiceFactory.makeResize(320, 320);
-		image = ImagesServiceFactory.getImagesService().applyTransform(resize, image);
-		this.blob = new Blob(image.getImageData());
-		this.formatOrdinal = image.getFormat().ordinal();
-		this.isbn = isbn;
 	}
 
 

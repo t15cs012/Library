@@ -25,7 +25,7 @@ public class ImageUtil {
 
 	public static String putImage(byte [] bytes, int isbn) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		ImageEntity entity = new ImageEntity(bytes, isbn);
+		ImageEntity entity = null;
 		try {
 			pm.makePersistent(entity);
 		}
@@ -65,7 +65,7 @@ public class ImageUtil {
 		return (List<ImageEntity>) query.execute();
 	}
 
-	public static Image readImage(int isbn) throws IOException {
+	public static Image readImage(String filename) throws IOException {
 		File f = new File(filename);
 		InputStream is = new FileInputStream(f);
 		int length = (int) f.length();

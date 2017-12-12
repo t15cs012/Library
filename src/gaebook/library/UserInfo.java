@@ -1,110 +1,122 @@
 package gaebook.library;
 
-import gaebook.util.ImageEntity;
-import gaebook.util.PMF;
-import java.util.*;
 import java.util.logging.*;
 
 import javax.jdo.*;
-import javax.jdo.Query;
 import javax.jdo.annotations.*;
 
+import gaebook.util.PMF;
+
 /**
- * ブログを表現するクラス
+ * 利用者情報を表現するクラス
  */
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
 public class UserInfo {
 	static Logger logger = Logger.getLogger(BookInfo.class.getName());
-	static String defaultPostFix = "mail";
 
 	@PrimaryKey
 	@Persistent
 	private String userID; // ユーザID
 	@Persistent
-	private String password; // 利用者の氏名
+	private String password; // パスワード
 	@Persistent
 	private String name; // 利用者の氏名
 	@Persistent
-	private ; // 著者名
+	private String EMail; // メールアドレス
 	@Persistent
-	private String publisher; // 出版社名
-	@Persistent
-	private ImageEntity image; // 表紙の画像
+	private String phoneNum; // 電話番号
 
-	public UserInfo(int ISBN, String name, String author, String publisher, ImageEntity  image) {
-		this.ISBN = ISBN;
-		this.name = name;
-		this.author = author;
-		this.publisher = publisher;
-		this.image = image;
+	public UserInfo() {
 	}
 
-	public void setISBN(int ISBN) {
-		this.ISBN = ISBN;
+	public static boolean createUserIfNotExist(String userID, String password, String name, String eMail,
+			String phoneNum) {
+		PersistenceManager pm = null;
+		Transaction tx = null;
+		try {
+			pm = PMF.get().getPersistenceManager();
+			tx = pm.currentTransaction();
+			tx.begin();
+			try {
+				pm.getObjectById(UserInfo.class, userID);
+				// すでに存在する．
+				tx.rollback();
+				return false;
+			} catch (JDOObjectNotFoundException e) {
+				// なかった．
+				UserInfo info = new UserInfo();
+				info.setUserID(userID);
+				info.setPassword(password);
+				info.setName(name);
+				info.setEMail(eMail);
+				info.setPhoneNum(phoneNum);
+
+				pm.makePersistent(info);
+				try {
+					tx.commit();
+					return true;
+				} catch (JDOCanRetryException e2) {
+					logger.log(Level.SEVERE, e2.getMessage(), e2);
+					return false;
+				}
+			}
+		} finally {
+			if (tx != null && tx.isActive())
+				tx.rollback();
+			if (pm != null && !pm.isClosed())
+				pm.close();
+		}
+	}
+
+	public void setUserID(String userID) {
+		this.userID = userID;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	public void setAuthor(String author) {
-		this.author = author;
+	public void setEMail(String eMail) {
+		EMail = eMail;
 	}
 
-	public void setPublisher(String publisher) {
-		this.publisher = publisher;
+	public void setPhoneNum(String phoneNum) {
+		this.phoneNum = phoneNum;
 	}
 
-	public void setImage(ImageEntity image) {
-		this.image = image;
+	public String getUserID() {
+		return userID;
 	}
 
-	/* 指定されたISBNコードを返す. PersistentManager は外部で管理する． */
-	public static int getISBN(PersistenceManager pm, int ISBN) {
+	public String getPassword() {
+		return password;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getEMail() {
+		return EMail;
+	}
+
+	public String getPhoneNum() {
+		return phoneNum;
+	}
+
+	/* 指定された図書情報を返す. PersistentManager は外部で管理する． */
+	public boolean checkPassword(String password) {
 		try {
-			return pm.getObjectById(BookInfo.class, ISBN);
-		}
-		catch (JDOObjectNotFoundException e) {
-			return null;
+			if (this.password == password)
+				return true;
+			return false;
+		} catch (JDOObjectNotFoundException e) {
+			return false;
 		}
 	}
-	public String getName(PersistenceManager pm, String name) {
-		try {
-			return pm.getObjectById(BookInfo.class, name);
-		}
-		catch (JDOObjectNotFoundException e) {
-			return null;
-		}
 
-	}
-
-	public String getAuthor(PersistenceManager pm, String author) {
-		try {
-			return pm.getObjectById(BookInfo.class, author);
-		}
-		catch (JDOObjectNotFoundException e) {
-			return null;
-		}
-
-	}
-
-	public String getPublisher(PersistenceManager pm, String publisher) {
-		try {
-			return pm.getObjectById(BookInfo.class, publisher);
-		}
-		catch (JDOObjectNotFoundException e) {
-			return null;
-		}
-
-	}
-
-	public ImageEntity getImage(PersistenceManager pm, String) {
-		try {
-			return pm.getObjectById(BookInfo.class, ISBN);
-		}
-		catch (JDOObjectNotFoundException e) {
-			return null;
-		}
-
-	}
 }

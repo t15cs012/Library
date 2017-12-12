@@ -2,20 +2,51 @@
 <web-app>
   <servlet>
     <servlet-name>home</servlet-name>
-    <servlet-class>gaebook.blog.Home</servlet-class>
+    <servlet-class>gaebook.library.Home</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>home</servlet-name>
     <url-pattern>/home</url-pattern>
   </servlet-mapping>
+  <servlet>
+  	<servlet-name>CreateUserInfo</servlet-name>
+  	<servlet-class>gaebook.library.CreateUserInfo</servlet-class></servlet>
+  <servlet-mapping>
+  	<servlet-name>CreateUserInfo</servlet-name>
+  	<url-pattern>/CreateUserInfo</url-pattern></servlet-mapping>
 
   <servlet>
-    <servlet-name>blogs</servlet-name>
-    <servlet-class>gaebook.blog.Blogs</servlet-class>
+    <servlet-name>CreateUserInfoHandler</servlet-name>
+    <servlet-class>gaebook.library.CreateUserInfoHandler</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>blogs</servlet-name>
-    <url-pattern>/blogs/*</url-pattern>
+    <servlet-name>CreateUserInfoHandler</servlet-name>
+  <url-pattern>/CreateUserInfoHandler</url-pattern></servlet-mapping>
+
+  <servlet>
+    <servlet-name>PrintUserInfoHandler</servlet-name>
+    <servlet-class>gaebook.library.PrintUserInfoHandler</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PrintUserInfoHandler</servlet-name>
+  <url-pattern>/PrintUserInfoHandler</url-pattern></servlet-mapping>
+
+  <servlet>
+    <servlet-name>LoginCheck</servlet-name>
+    <servlet-class>gaebook.util.LoginCheck</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LoginCheck</servlet-name>
+    <url-pattern>/LoginCheck</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>Login</servlet-name>
+    <servlet-class>gaebook.util.Login</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Login</servlet-name>
+    <url-pattern>/Login</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -28,61 +59,6 @@
   </servlet-mapping>
 
   <servlet>
-    <servlet-name>createBlogEntryHandler</servlet-name>
-    <servlet-class>gaebook.blog.CreateBlogEntryHandler</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>createBlogEntryHandler</servlet-name>
-    <url-pattern>/createBlogEntryHandler</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>deleteBlogEntryHandler</servlet-name>
-    <servlet-class>gaebook.blog.DeleteBlogEntryHandler</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>deleteBlogEntryHandler</servlet-name>
-    <url-pattern>/deleteBlogEntryHandler</url-pattern>
-  </servlet-mapping>
-  
-  <servlet>
-    <servlet-name>deleteBlogHandler</servlet-name>
-    <servlet-class>gaebook.blog.DeleteBlogHandler</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>deleteBlogHandler</servlet-name>
-    <url-pattern>/deleteBlogHandler</url-pattern>
-  </servlet-mapping>
-
-
-  <servlet>
-    <servlet-name>createBlogEntry</servlet-name>
-    <servlet-class>gaebook.blog.CreateBlogEntry</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>createBlogEntry</servlet-name>
-    <url-pattern>/createBlogEntry</url-pattern>
-  </servlet-mapping>
-  
-  <servlet>
-    <servlet-name>createBlogHandler</servlet-name>
-    <servlet-class>gaebook.blog.CreateBlogHandler</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>createBlogHandler</servlet-name>
-    <url-pattern>/createBlogHandler</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>configBlogHandler</servlet-name>
-    <servlet-class>gaebook.blog.ConfigBlogHandler</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>configBlogHandler</servlet-name>
-    <url-pattern>/configBlogHandler</url-pattern>
-  </servlet-mapping>
-    
-  <servlet>
     <servlet-name>confirmationDialog</servlet-name>
     <servlet-class>gaebook.util.ConfirmationDialog</servlet-class>
   </servlet>
@@ -91,35 +67,22 @@
     <url-pattern>/confirmationDialog</url-pattern>
   </servlet-mapping>
 
-  <servlet>
-    <servlet-name>mailhandler</servlet-name>
-    <servlet-class>gaebook.blog.MailHandler</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>mailhandler</servlet-name>
-    <url-pattern>/_ah/mail/*</url-pattern>
-  </servlet-mapping>
+  <filter>
+    <filter-name>AuthFilter</filter-name>
+    <filter-class>gaebook.util.AuthFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>AuthFilter</filter-name>
+    <url-pattern>/PrintUserInfoHandler</url-pattern>
+  </filter-mapping>
+
+    <session-config>
+        <session-timeout>1</session-timeout>
+    </session-config>
+
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
   
-	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
-	</welcome-file-list>
-<!-- 
-  <security-constraint>
-    <web-resource-collection>
-      <url-pattern>/createBlog</url-pattern>
-      <url-pattern>/createEntry</url-pattern>
-    </web-resource-collection>
-    <auth-constraint>
-      <role-name>*</role-name>
-    </auth-constraint>
-  </security-constraint>
--->
-  <security-constraint>
-    <web-resource-collection>
-      <url-pattern>/_ah/mail/*</url-pattern>
-    </web-resource-collection>
-    <auth-constraint>
-      <role-name>admin</role-name>
-    </auth-constraint>
-  </security-constraint>
 </web-app>

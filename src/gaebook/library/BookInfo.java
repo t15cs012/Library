@@ -57,8 +57,8 @@ public class BookInfo {
 		this.image = image;
 	}
 
-	/* 指定されたISBNコードを返す. PersistentManager は外部で管理する． */
-	public static int getISBN(PersistenceManager pm, int ISBN) {
+	/* 指定された図書情報を返す. PersistentManager は外部で管理する． */
+	public static BookInfo getISBN(PersistenceManager pm, int ISBN) {
 		try {
 			return pm.getObjectById(BookInfo.class, ISBN);
 		}
@@ -66,7 +66,8 @@ public class BookInfo {
 			return null;
 		}
 	}
-	public String getName(PersistenceManager pm, String name) {
+	
+	public static BookInfo getName(PersistenceManager pm, String name) {
 		try {
 			return pm.getObjectById(BookInfo.class, name);
 		}
@@ -76,7 +77,7 @@ public class BookInfo {
 
 	}
 
-	public String getAuthor(PersistenceManager pm, String author) {
+	public static BookInfo getAuthor(PersistenceManager pm, String author) {
 		try {
 			return pm.getObjectById(BookInfo.class, author);
 		}
@@ -86,7 +87,7 @@ public class BookInfo {
 
 	}
 
-	public String getPublisher(PersistenceManager pm, String publisher) {
+	public static BookInfo getPublisher(PersistenceManager pm, String publisher) {
 		try {
 			return pm.getObjectById(BookInfo.class, publisher);
 		}
@@ -96,13 +97,4 @@ public class BookInfo {
 
 	}
 
-	public ImageEntity getImage(PersistenceManager pm, String) {
-		try {
-			return pm.getObjectById(BookInfo.class, ISBN);
-		}
-		catch (JDOObjectNotFoundException e) {
-			return null;
-		}
-
-	}
 }

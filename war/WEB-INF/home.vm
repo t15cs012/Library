@@ -13,8 +13,8 @@
   <br><br>
   <div>
     <p>
-      <input type="button" value="利用者登録" onclick="">
-      <input type="button" value="利用者情報" onclick="">
+    <a href="/CreateUserInfo">利用者登録</a> 
+     <a href="/PrintUserInfoHandler">利用者情報</a> 
     </p>
     <p>
       <input type="button" value="図書貸出" onclick="">

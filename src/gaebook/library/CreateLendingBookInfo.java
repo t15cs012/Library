@@ -1,4 +1,4 @@
-package gaebook.blog;
+package gaebook.library;
 
 import gaebook.util.*;
 import gaebook.util.ErrorPage.ErrorPageException;
@@ -19,8 +19,9 @@ import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.users.*;
 
 // 新しいブログを作成
+@SuppressWarnings("serial")
 public class CreateLendingBookInfo extends HttpServlet {
-    static Logger logger = Logger.getLogger(CreateBlogEntryHandler.class
+    static Logger logger = Logger.getLogger(CreateLendingBookInfo.class
             .getName());
     public static class TemporalImage {
         byte [] bytes;
@@ -71,50 +72,6 @@ public class CreateLendingBookInfo extends HttpServlet {
         Body body = new Body() {
             public void run(PersistenceManager pm, Transaction tx)
                     throws ErrorPageException {
-                Blog blog = Blog.getBlog(pm, blogName);
-                if (blog == null)
-                    throw new ErrorPageException("該当するブログが見つかりません",
-                            "/home");
-                if (!blog.getOwner().equals(user))
-                    throw new ErrorPageException(
-                            "ブログに書き込む権限がありません", "/home");
-                
-                List<String> tagList;
-                if (tags.trim().isEmpty())
-                    tagList = new ArrayList<String>();                    
-                else
-                    tagList = Arrays.asList(tags.trim().split("[, ]+"));
-                        
-                BlogEntry entry;
-                if (entryId == null || entryId.trim().isEmpty()) {
-                    // 新規エントリ
-                    logger.info("new entry");
-                    entry = new BlogEntry();
-                    entry.setDate(new Date());
-                    blog.getEntries().add(entry);
-                } else {
-                    logger.info("updating entry");
-                    entry = BlogEntry
-                            .getEntry(pm, entryId);
-                    blog.decrementTags(pm, entry.getTags());
-
-                    // チェックが外された写真を削除
-                    List<ImageEntity> toRemove = new ArrayList<ImageEntity>();
-                    for (ImageEntity image: entry.getImages())  
-                        if (!preservePic.contains(image.getKeyAsString()))
-                            toRemove.add(image);
-                    for (ImageEntity image: toRemove)
-                        entry.getImages().remove(image);
-                }
-                for (TemporalImage tempImage: tempImages)  
-                    entry.getImages().add(new ImageEntity(tempImage.bytes, 
-                                                          tempImage.name));
-                entry.setTags(tagList);
-                entry.setText(new Text(text));
-                entry.setTitle(title);
-                blog.incrementTags(pm, tagList);
-
-                blog.updateTagList();
             }
         };
 

@@ -39,10 +39,12 @@ public class CreateBookInfoHandler extends HttpServlet {
 		final String author = (String) req.getSession().getAttribute("author");
 		final String publisher = (String) req.getSession().getAttribute("publisher");
 
-		final TemporalImage tempImages;
+		TemporalImage tempImages;
+		
 		try {
 			ServletFileUpload upload = new ServletFileUpload();
 			FileItemIterator iterator = upload.getItemIterator(req);
+			
 			while (iterator.hasNext()) {
 				FileItemStream item = iterator.next();
 				InputStream stream = item.openStream();
@@ -63,41 +65,13 @@ public class CreateBookInfoHandler extends HttpServlet {
 		Body body = new Body() {
 			public void run(PersistenceManager pm, Transaction tx) throws ErrorPageException {
 				BookInfo bookInfo;
-				if (entryId == null || entryId.trim().isEmpty()) {
-					// 新規エントリ
-					logger.info("new entry");
-					bookInfo = new BlogEntry();
-					bookInfo.setDate(new Date());
-					blog.getEntries().add(bookInfo);
-				}
-				else {
-					logger.info("updating entry");
-					bookInfo = BlogEntry.getEntry(pm, entryId);
-					blog.decrementTags(pm, bookInfo.getTags());
-
-					// チェックが外された写真を削除
-					List<ImageEntity> toRemove = new ArrayList<ImageEntity>();
-					for (ImageEntity image : bookInfo.getImages())
-						if (!preservePic.contains(image.getKeyAsString()))
-							toRemove.add(image);
-					for (ImageEntity image : toRemove)
-						bookInfo.getImages().remove(image);
-				}
-				for (TemporalImage tempImage : tempImages)
-					bookInfo.getImages().add(new ImageEntity(tempImage.bytes, tempImage.name));
-				bookInfo.setTags(tagList);
-				bookInfo.setText(new Text(text));
-				bookInfo.setTitle(title);
-				blog.incrementTags(pm, tagList);
-
-				blog.updateTagList();
 			}
 		};
 
 		/* 上で定義した部分をトランザクション内で実行．3回までリトライする */
 		try {
 			if (!TransactionManager.start(3, body)) {
-				ErrorPage.create(res, "コミットに失敗しました", "/blogs/" + URLEncoder.encode(blogName, "UTF-8"));
+				ErrorPage.create(res, "コミットに失敗しました", "/home");
 				return;
 			}
 		}
@@ -106,7 +80,7 @@ public class CreateBookInfoHandler extends HttpServlet {
 		}
 
 		// もとのページにリダイレクト
-		res.sendRedirect("/blogs/" + URLEncoder.encode(blogName, "UTF-8"));
+		res.sendRedirect("/home");
 	}
 
 	private Map<String, Object> readMultiform(HttpServletRequest req)
