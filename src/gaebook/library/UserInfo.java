@@ -14,7 +14,8 @@ import gaebook.util.PMF;
 public class UserInfo {
 	static Logger logger = Logger.getLogger(BookInfo.class.getName());
 
-	@PrimaryKey @Persistent
+	@PrimaryKey
+	@Persistent
 	private String key; // ユーザID
 	@Persistent
 	private String password; // パスワード
@@ -28,9 +29,9 @@ public class UserInfo {
 	public UserInfo() {
 	}
 
-	public static boolean createUserIfNotExist(String userID, String password, String name, String eMail,
+	public static boolean createUserInfoIfNotExist(String userID, String password, String name, String eMail,
 			String phoneNum) {
-		
+
 		PersistenceManager pm = null;
 		Transaction tx = null;
 		try {

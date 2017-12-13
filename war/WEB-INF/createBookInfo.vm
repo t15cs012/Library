@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>図書登録</title>
+  </head>
+  <body>
+  
+	<div id="panel">
+    <h1>図書登録画面</h1>
+    <form action="/CreateUserInfoHandler" method="post" >
+      <table>
+	<tr>
+	  <td>ISBNコード</td>
+	  #if ($isbn)
+	  	<td><input type="text" name="isbn" value="$isbn" size="32"></td>
+	  #else
+	  	<td><input type="text" name="isbn" size="32"></td>
+	  #end
+	  #if ($isbnEroor)
+	  	<td>$isbnError</td>
+	  #end
+	</tr>
+	<tr>
+	  <td>書籍名</td>
+	  #if ($name)
+	  	<td><input type="text" name="name" value="$name" size="32"></td>
+	  #else
+	  	<td><input type="text" name="name" size="32"></td>
+	  #end
+	  #if ($nameEroor)
+	  	<td>$nameError</td>
+	  #end
+	</tr>
+	<tr>
+	  <td>著者名</td>
+	  #if ($author)
+	  	<td><input type="text" name="author" value="$author" size="32"></td>
+	  #else
+	  	<td><input type="text" name="author" size="32"></td>
+	  #end
+	  #if ($authorfError)
+	  	<td>$authorError</td>
+	  #end
+	</tr>
+	<tr>
+	  <td>出版社名</td>
+	  #if ($publisher)
+	  	<td><input type="text" name="publisher" value="$publisher" size="32"></td>
+	  #else
+	  	<td><input type="text" name="publisher" size="32"></td>
+	  #end
+  	  #if ($publisherError)
+	  	<td>$publisherError</td>
+	  #end
+	</tr>
+	<tr>
+	  <td>表紙の画像</td>
+	  #if ($images)
+      	#foreach ($image in $images) 
+        <div>
+          <input type="checkbox" name="preservePic$velocityCount" 
+                 value="$image.getKeyAsString()" checked="true"/> 
+          $image.getName(); 
+        </div>
+      #end
+    #end  
+    <input type="file" name="upfile">
+	</tr>
+	<tr>
+	  <td><input type="submit" value="登録"></td>
+	</tr>
+      </table>
+    </form>
+    </div>
+
+  </body>
+</html>

@@ -2,11 +2,9 @@ package gaebook.library;
 
 import gaebook.util.ImageEntity;
 import gaebook.util.PMF;
-import java.util.*;
 import java.util.logging.*;
 
 import javax.jdo.*;
-import javax.jdo.Query;
 import javax.jdo.annotations.*;
 
 /**
@@ -18,8 +16,8 @@ public class BookInfo {
 	static String defaultPostFix = "mail";
 
 	@PrimaryKey
-	@Persistent
-	private int ISBN; // ISBNコード
+	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+	private int key; // ISBNコード
 	@Persistent
 	private String name; // 書籍名
 	@Persistent
@@ -29,16 +27,50 @@ public class BookInfo {
 	@Persistent
 	private ImageEntity image; // 表紙の画像
 
-	public BookInfo(int ISBN, String name, String author, String publisher, ImageEntity  image) {
-		this.ISBN = ISBN;
-		this.name = name;
-		this.author = author;
-		this.publisher = publisher;
-		this.image = image;
+	public BookInfo() {
+		this.image = null;
 	}
 
-	public void setISBN(int ISBN) {
-		this.ISBN = ISBN;
+	public static boolean createBookInfoIfNotExist(int ISBN, String name, String author, String publisher,
+			ImageEntity image) {
+		PersistenceManager pm = null;
+		Transaction tx = null;
+		try {
+			pm = PMF.get().getPersistenceManager();
+			tx = pm.currentTransaction();
+			tx.begin();
+			try {
+				pm.getObjectById(UserInfo.class, ISBN);
+				// すでに存在する．
+				tx.rollback();
+				return false;
+			} catch (JDOObjectNotFoundException e) {
+				// なかった．
+				BookInfo info = new BookInfo();
+				info.setName(name);
+				info.setAuthor(author);
+				info.setPublisher(publisher);
+				info.setImage(image);
+
+				pm.makePersistent(info);
+				try {
+					tx.commit();
+					return true;
+				} catch (JDOCanRetryException e2) {
+					logger.log(Level.SEVERE, e2.getMessage(), e2);
+					return false;
+				}
+			}
+		} finally {
+			if (tx != null && tx.isActive())
+				tx.rollback();
+			if (pm != null && !pm.isClosed())
+				pm.close();
+		}
+	}
+
+	public void setKey(int ISBN) {
+		this.key = ISBN;
 	}
 
 	public void setName(String name) {
@@ -55,46 +87,6 @@ public class BookInfo {
 
 	public void setImage(ImageEntity image) {
 		this.image = image;
-	}
-
-	/* 指定された図書情報を返す. PersistentManager は外部で管理する． */
-	public static BookInfo getISBN(PersistenceManager pm, int ISBN) {
-		try {
-			return pm.getObjectById(BookInfo.class, ISBN);
-		}
-		catch (JDOObjectNotFoundException e) {
-			return null;
-		}
-	}
-	
-	public static BookInfo getName(PersistenceManager pm, String name) {
-		try {
-			return pm.getObjectById(BookInfo.class, name);
-		}
-		catch (JDOObjectNotFoundException e) {
-			return null;
-		}
-
-	}
-
-	public static BookInfo getAuthor(PersistenceManager pm, String author) {
-		try {
-			return pm.getObjectById(BookInfo.class, author);
-		}
-		catch (JDOObjectNotFoundException e) {
-			return null;
-		}
-
-	}
-
-	public static BookInfo getPublisher(PersistenceManager pm, String publisher) {
-		try {
-			return pm.getObjectById(BookInfo.class, publisher);
-		}
-		catch (JDOObjectNotFoundException e) {
-			return null;
-		}
-
 	}
 
 }
