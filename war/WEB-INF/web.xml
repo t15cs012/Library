@@ -9,11 +9,12 @@
     <url-pattern>/home</url-pattern>
   </servlet-mapping>
   <servlet>
-  	<servlet-name>CreateUserInfo</servlet-name>
-  	<servlet-class>gaebook.library.CreateUserInfo</servlet-class></servlet>
+    <servlet-name>CreateUserInfo</servlet-name>
+  <servlet-class>gaebook.library.CreateUserInfo</servlet-class></servlet>
   <servlet-mapping>
-  	<servlet-name>CreateUserInfo</servlet-name>
-  	<url-pattern>/CreateUserInfo</url-pattern></servlet-mapping>
+    <servlet-name>CreateUserInfo</servlet-name>
+    <url-pattern>/CreateUserInfo</url-pattern>
+  </servlet-mapping>
 
   <servlet>
     <servlet-name>CreateUserInfoHandler</servlet-name>
@@ -21,7 +22,8 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>CreateUserInfoHandler</servlet-name>
-  <url-pattern>/CreateUserInfoHandler</url-pattern></servlet-mapping>
+    <url-pattern>/CreateUserInfoHandler</url-pattern>
+  </servlet-mapping>
 
   <servlet>
     <servlet-name>PrintUserInfoHandler</servlet-name>
@@ -29,7 +31,25 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PrintUserInfoHandler</servlet-name>
-  <url-pattern>/PrintUserInfoHandler</url-pattern></servlet-mapping>
+    <url-pattern>/PrintUserInfoHandler</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>CreateBookInfo</servlet-name>
+  <servlet-class>gaebook.library.CreateBookInfo</servlet-class></servlet>
+  <servlet-mapping>
+    <servlet-name>CreateBookInfo</servlet-name>
+    <url-pattern>/CreateBookInfo</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>CreateBookInfoHandler</servlet-name>
+    <servlet-class>gaebook.library.CreateBookInfoHandler</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CreateBookInfoHandler</servlet-name>
+    <url-pattern>/CreateBookInfoHandler</url-pattern>
+  </servlet-mapping>
 
   <servlet>
     <servlet-name>LoginCheck</servlet-name>
@@ -71,15 +91,14 @@
     <filter-name>AuthFilter</filter-name>
     <filter-class>gaebook.util.AuthFilter</filter-class>
   </filter>
-
   <filter-mapping>
     <filter-name>AuthFilter</filter-name>
     <url-pattern>/PrintUserInfoHandler</url-pattern>
   </filter-mapping>
 
-    <session-config>
-        <session-timeout>1</session-timeout>
-    </session-config>
+  <session-config>
+    <session-timeout>1</session-timeout>
+  </session-config>
 
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>

@@ -27,7 +27,7 @@
   <br>
   <div>
     <p>
-      <input type="button" value="図書登録" onclick="">
+     <a href="/CreateBookInfo">図書登録</a> 
       <input type="button" value="図書貸出状況" onclick="">
     </p>
   </div>

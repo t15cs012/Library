@@ -10,21 +10,21 @@ import org.apache.velocity.context.Context;
 
 import gaebook.util.Renderer;
 
-// 新しい利用者を登録
+// 新しい図書情報登録ページへリダイレクト
 @SuppressWarnings("serial")
-public class CreateUserInfo extends HttpServlet {
+public class CreateBookInfo extends HttpServlet {
 	static Logger logger = Logger.getLogger(CreateBookInfoHandler.class.getName());
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
-		logger.info("Render CreateUserInfo page.");
+		logger.info("Render CreateBookInfo page.");
 		
 		res.setContentType("text/html; charset=utf-8");
 
 		Context context = new VelocityContext();
 
 		/* iPhone とそれ以外でテンプレートを切り替え */
-		String template = req.getHeader("User-Agent").contains("iPhone") ? "WEB-INF/createUserInfo.iphone.vm"
-				: "WEB-INF/createUserInfo.vm";
+		String template = req.getHeader("User-Agent").contains("iPhone") ? "WEB-INF/createBookInfo.iphone.vm"
+				: "WEB-INF/createBookInfo.vm";
 
 		res.setContentType("text/html");
 		res.setCharacterEncoding("utf-8");

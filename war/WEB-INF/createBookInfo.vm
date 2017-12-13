@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
+  	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="/blog.css" media="all" type="text/css">
     <title>図書登録</title>
   </head>
   <body>
   
 	<div id="panel">
     <h1>図書登録画面</h1>
-    <form action="/CreateUserInfoHandler" method="post" >
+    <form action="/CreateBookInfoHandler" method="post" enctype="multipart/form-data">
       <table>
 	<tr>
 	  <td>ISBNコード</td>
@@ -57,14 +59,14 @@
 	  <td>表紙の画像</td>
 	  #if ($images)
       	#foreach ($image in $images) 
-        <div>
+        <p>
           <input type="checkbox" name="preservePic$velocityCount" 
                  value="$image.getKeyAsString()" checked="true"/> 
           $image.getName(); 
-        </div>
+        </p>
       #end
     #end  
-    <input type="file" name="upfile">
+    <td><input type="file" name="upfile"></td>
 	</tr>
 	<tr>
 	  <td><input type="submit" value="登録"></td>

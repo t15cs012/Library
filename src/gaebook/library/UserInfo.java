@@ -14,9 +14,9 @@ import gaebook.util.PMF;
 public class UserInfo {
 	static Logger logger = Logger.getLogger(BookInfo.class.getName());
 
-	@PrimaryKey
 	@Persistent
-	private String key; // ユーザID
+	@PrimaryKey
+	private String userID; // ユーザID
 	@Persistent
 	private String password; // パスワード
 	@Persistent
@@ -29,9 +29,11 @@ public class UserInfo {
 	public UserInfo() {
 	}
 
+    /* 指定したユーザIDが存在するかを判定．もし無ければ作成． */
 	public static boolean createUserInfoIfNotExist(String userID, String password, String name, String eMail,
 			String phoneNum) {
-
+		logger.info("If not exist, create UserInfo.");
+		
 		PersistenceManager pm = null;
 		Transaction tx = null;
 		try {
@@ -42,16 +44,18 @@ public class UserInfo {
 				pm.getObjectById(UserInfo.class, userID);
 				// すでに存在する．
 				tx.rollback();
+				logger.info("This user id existed.");
 				return false;
 			} catch (JDOObjectNotFoundException e) {
 				// なかった．
 				UserInfo info = new UserInfo();
-				info.setKey(userID);
+				info.setUserID(userID);
 				info.setPassword(password);
 				info.setName(name);
 				info.setEMail(eMail);
 				info.setPhoneNum(phoneNum);
 
+				logger.info("Create new UserInfo entity.");
 				pm.makePersistent(info);
 				try {
 					tx.commit();
@@ -69,8 +73,8 @@ public class UserInfo {
 		}
 	}
 
-	public void setKey(String userID) {
-		this.key = userID;
+	public void setUserID(String userID) {
+		this.userID = userID;
 	}
 
 	public void setPassword(String password) {
@@ -89,8 +93,8 @@ public class UserInfo {
 		this.phoneNum = phoneNum;
 	}
 
-	public String getKey() {
-		return key;
+	public String getUserID() {
+		return userID;
 	}
 
 	public String getPassword() {
@@ -108,16 +112,5 @@ public class UserInfo {
 	public String getPhoneNum() {
 		return phoneNum;
 	}
-
-	/* 指定された図書情報を返す. PersistentManager は外部で管理する． */
-	// public boolean checkPassword(String password) {
-	// try {
-	// if (this.password == password)
-	// return true;
-	// return false;
-	// } catch (JDOObjectNotFoundException e) {
-	// return false;
-	// }
-	// }
 
 }

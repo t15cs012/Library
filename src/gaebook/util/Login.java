@@ -4,6 +4,7 @@ import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
+@SuppressWarnings("serial")
 public class Login extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse res)
 	throws IOException, ServletException {
@@ -34,7 +35,7 @@ public class Login extends HttpServlet {
 	    out.println("<form method=\"POST\" action=\"/LoginCheck\" name=\"loginform\">");
 	    out.println("<table>");
 	    out.println("<tr>");
-	    out.println("<td>ユーザー名</td>");
+	    out.println("<td>ユーザーID</td>");
 	    out.println("<td><input type=\"text\" name=\"user\" size=\"32\"></td>");
 	    out.println("</tr>");
 	    out.println("<tr>");

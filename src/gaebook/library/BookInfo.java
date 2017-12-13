@@ -2,37 +2,43 @@ package gaebook.library;
 
 import gaebook.util.ImageEntity;
 import gaebook.util.PMF;
+
+import java.util.List;
 import java.util.logging.*;
 
 import javax.jdo.*;
 import javax.jdo.annotations.*;
 
 /**
- * ブログを表現するクラス
+ * 図書情報を表現するクラス
  */
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
 public class BookInfo {
 	static Logger logger = Logger.getLogger(BookInfo.class.getName());
 	static String defaultPostFix = "mail";
 
+	@Persistent
 	@PrimaryKey
-	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private int key; // ISBNコード
+	private String ISBN; // ISBNコード
 	@Persistent
 	private String name; // 書籍名
 	@Persistent
 	private String author; // 著者名
 	@Persistent
 	private String publisher; // 出版社名
-	@Persistent
-	private ImageEntity image; // 表紙の画像
+
+	@Persistent(mappedBy = "info")
+	@Element(dependent = "true")
+	private List<ImageEntity> images; // 表紙の画像
 
 	public BookInfo() {
-		this.image = null;
 	}
 
-	public static boolean createBookInfoIfNotExist(int ISBN, String name, String author, String publisher,
-			ImageEntity image) {
+    /* 指定したISBNコードが存在するかを判定．もし無ければ作成． */
+	public static boolean createBookInfoIfNotExist(String ISBN, String name, String author, String publisher,
+			List<ImageEntity> images) {
+		logger.info("If not exist, create BookInfo.");
+		
 		PersistenceManager pm = null;
 		Transaction tx = null;
 		try {
@@ -40,18 +46,21 @@ public class BookInfo {
 			tx = pm.currentTransaction();
 			tx.begin();
 			try {
-				pm.getObjectById(UserInfo.class, ISBN);
+				pm.getObjectById(BookInfo.class, ISBN);
 				// すでに存在する．
 				tx.rollback();
+				logger.info("This ISBN code existed.");
 				return false;
 			} catch (JDOObjectNotFoundException e) {
 				// なかった．
 				BookInfo info = new BookInfo();
+				info.setISBN(ISBN);
 				info.setName(name);
 				info.setAuthor(author);
 				info.setPublisher(publisher);
-				info.setImage(image);
+				info.setImages(images);
 
+				logger.info("Create new BookInfo entity.");
 				pm.makePersistent(info);
 				try {
 					tx.commit();
@@ -69,8 +78,8 @@ public class BookInfo {
 		}
 	}
 
-	public void setKey(int ISBN) {
-		this.key = ISBN;
+	public void setISBN(String ISBN) {
+		this.ISBN = ISBN;
 	}
 
 	public void setName(String name) {
@@ -85,8 +94,28 @@ public class BookInfo {
 		this.publisher = publisher;
 	}
 
-	public void setImage(ImageEntity image) {
-		this.image = image;
+	public void setImages(List<ImageEntity> images) {
+		this.images = images;
+	}
+
+	public String getISBN() {
+		return ISBN;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public String getPublisher() {
+		return publisher;
+	}
+
+	public List<ImageEntity> getImages() {
+		return images;
 	}
 
 }

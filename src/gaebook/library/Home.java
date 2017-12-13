@@ -10,9 +10,9 @@ import java.lang.ExceptionInInitializerError;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.context.Context;
 
-/* ブログ システムのホーム画面．ログインしていればそのユーザのブログを列挙
- * していなければすべてのブログを列挙
- */
+/**
+ * 図書管理システムのホーム画面．
+ **/
 @SuppressWarnings("serial")
 public class Home extends HttpServlet {
 	private static Logger log = Logger.getLogger(Home.class.getName());

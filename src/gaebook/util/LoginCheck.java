@@ -22,27 +22,35 @@ public class LoginCheck extends HttpServlet {
 
 		HttpSession session = req.getSession(true);
 		PersistenceManager pm = null;
+
 		try {
-			pm = PMF.get().getPersistenceManager();
-			Query query = pm.newQuery(UserInfo.class);
-			query.setFilter("key == user && password == pass"); // ユーザIDとパスワードが一致するか
-			query.declareParameters("String user, String pass");
-			@SuppressWarnings("unchecked")
-			List<UserInfo> list = (List<UserInfo>) query.execute(user, pass);
-			
-			if (list.isEmpty()) {
+			if (user.isEmpty() || pass.isEmpty()) {
 				/* 認証に失敗したら、ログイン画面に戻す */
 				session.setAttribute("status", "Not Auth");
 				res.sendRedirect("/Login");
 			}
 			else {
-				/* 認証済みにセット */
-				session.setAttribute("login", "OK");
+				pm = PMF.get().getPersistenceManager();
+				Query query = pm.newQuery(UserInfo.class);
+				query.setFilter("key == user && password == pass"); // ユーザIDとパスワードが一致するか
+				query.declareParameters("String user, String pass");
+				@SuppressWarnings("unchecked")
+				List<UserInfo> list = (List<UserInfo>) query.execute(user, pass);
 
-				/* 本来のアクセス先へ飛ばす */
-				String target = (String) session.getAttribute("target");
-				res.sendRedirect(target);
-			} 
+				if (list.isEmpty()) {
+					/* 認証に失敗したら、ログイン画面に戻す */
+					session.setAttribute("status", "Not Auth");
+					res.sendRedirect("/Login");
+				}
+				else {
+					/* 認証済みにセット */
+					session.setAttribute("login", "OK");
+
+					/* 本来のアクセス先へ飛ばす */
+					String target = (String) session.getAttribute("target");
+					res.sendRedirect(target);
+				}
+			}
 		} catch (ExceptionInInitializerError e) {
 			e.printStackTrace();
 		} finally {
