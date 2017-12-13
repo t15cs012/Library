@@ -17,17 +17,18 @@ public class LoginCheck extends HttpServlet {
 
 		res.setContentType("text/html; charset=utf-8");
 
-		String user = req.getParameter("user");
-		String pass = req.getParameter("pass");
+		String user = req.getParameter("user"); // ユーザID
+		String pass = req.getParameter("pass"); // パスワード
 
 		HttpSession session = req.getSession(true);
 		PersistenceManager pm = null;
 		try {
 			pm = PMF.get().getPersistenceManager();
 			Query query = pm.newQuery(UserInfo.class);
-			query.setFilter("userID == user && password == pass");
+			query.setFilter("key == user && password == pass"); // ユーザIDとパスワードが一致するか
 			query.declareParameters("String user, String pass");
-			List<UserInfo> list = (List)query.execute(user, pass);
+			@SuppressWarnings("unchecked")
+			List<UserInfo> list = (List<UserInfo>) query.execute(user, pass);
 			
 			if (list.isEmpty()) {
 				/* 認証に失敗したら、ログイン画面に戻す */
@@ -52,5 +53,3 @@ public class LoginCheck extends HttpServlet {
 	}
 
 }
-// https://www.javadrive.jp/servlet/auth/index9.html
-// http://d.hatena.ne.jp/ishimarum/20110308/1299594751

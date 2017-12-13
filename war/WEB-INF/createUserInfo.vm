@@ -1,39 +1,78 @@
-	<html>
-	    <head>
-	    <title>利用者登録</title>
-	    </head>
-	    <body>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>利用者登録</title>
+  </head>
+  <body>
+  
+	<div id="panel">
+    <h1>利用者登録画面</h1>
+    <form action="/CreateUserInfoHandler" method="post" >
+      <table>
+	<tr>
+	  <td>ユーザーID</td>
+	  #if ($userID)
+	  	<td><input type="text" name="user" value="$userID" size="32"></td>
+	  #else
+	  	<td><input type="text" name="user" size="32"></td>
+	  #end
+	  #if ($userIDError)
+	  	<td>$userIDError</td>
+	  #end
+	</tr>
+	<tr>
+	  <td>パスワード</td>
+	  <td><input type="password" name="pass" size="32"></td>
+	  #if ($passError)
+	  	<td>$passError</td>
+	  #end
+	</tr>
+	<tr>
+	  <td>パスワードの確認</td>
+	  <td><input type="password" name="passConf" size="32"></td>
+	  #if ($passConfError)
+	  	<td>$passConfError</td>
+	  #end
+	</tr>
+	<tr>
+	  <td>氏名</td>
+	  #if ($name)
+	  	<td><input type="text" name="name" value="$name" size="32"></td>
+	  #else
+	  	<td><input type="text" name="name" size="32"></td>
+	  #end
+  	  #if ($nameError)
+	  	<td>$nameError</td>
+	  #end
+	</tr>
+	<tr>
+	  <td>メールアドレス</td>
+	  #if ($email)
+	  	<td><input type="text" name="email" value="$email" size="32"></td>
+	  #else
+	  	<td><input type="text" name="email" size="32"></td>
+	  #end
+	  #if ($emailError)
+	  	<td>$emailError</td>
+	  #end
+	</tr>
+	<tr>
+	  <td>電話番号</td>
+	  #if ($phoneNum)
+	  	<td><input type="text" name="phoneNum" value="$phoneNum" size="32"></td>
+	  #else
+	  	<td><input type="text" name="phoneNum" size="32"></td>
+	  #end
+	  #if ($phoneNumError)
+	  	<td>$phoneNumError</td>
+	  #end
+	</tr>
+	<tr>
+	  <td><input type="submit" value="登録"></td>
+	</tr>
+      </table>
+    </form>
+    </div>
 
-	    <h1>利用者登録画面</h1>
-
-
-	    <form method="POST" action="/CreateUserInfoHandler" >
-	    <table>
-	    <tr>
-	    <td>ユーザーID</td>
-	    <td><input type="text" name="user" size="32"></td>
-	    </tr>
-	    <tr>
-	    <td>パスワード</td>
-	    <td><input type="password" name="pass" size="32"></td>
-	    </tr>
-	    <tr>
-	    <td>氏名</td>
-	    <td><input type="text" name="name" size="32"></td>
-	    </tr>
-	    <tr>
-	    <td>メールアドレス</td>
-	    <td><input type="text" name="email" size="32"></td>
-	    </tr>
-	    <tr>
-	    <td>連絡先</td>
-	    <td><input type="text" name="num" size="32"></td>
-	    </tr>
-	    <tr>
-	    <td><input type="submit" value="登録"></td>
-	    </tr>
-	    </table>
-	    </form>
-
-	    </body>
-	    </html>
+  </body>
+</html>

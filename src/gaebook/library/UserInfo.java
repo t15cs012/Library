@@ -14,15 +14,14 @@ import gaebook.util.PMF;
 public class UserInfo {
 	static Logger logger = Logger.getLogger(BookInfo.class.getName());
 
-	@PrimaryKey
-	@Persistent
-	private String userID; // ユーザID
+	@PrimaryKey @Persistent
+	private String key; // ユーザID
 	@Persistent
 	private String password; // パスワード
 	@Persistent
 	private String name; // 利用者の氏名
 	@Persistent
-	private String EMail; // メールアドレス
+	private String eMail; // メールアドレス
 	@Persistent
 	private String phoneNum; // 電話番号
 
@@ -31,6 +30,7 @@ public class UserInfo {
 
 	public static boolean createUserIfNotExist(String userID, String password, String name, String eMail,
 			String phoneNum) {
+		
 		PersistenceManager pm = null;
 		Transaction tx = null;
 		try {
@@ -45,7 +45,7 @@ public class UserInfo {
 			} catch (JDOObjectNotFoundException e) {
 				// なかった．
 				UserInfo info = new UserInfo();
-				info.setUserID(userID);
+				info.setKey(userID);
 				info.setPassword(password);
 				info.setName(name);
 				info.setEMail(eMail);
@@ -68,8 +68,8 @@ public class UserInfo {
 		}
 	}
 
-	public void setUserID(String userID) {
-		this.userID = userID;
+	public void setKey(String userID) {
+		this.key = userID;
 	}
 
 	public void setPassword(String password) {
@@ -81,15 +81,15 @@ public class UserInfo {
 	}
 
 	public void setEMail(String eMail) {
-		EMail = eMail;
+		this.eMail = eMail;
 	}
 
 	public void setPhoneNum(String phoneNum) {
 		this.phoneNum = phoneNum;
 	}
 
-	public String getUserID() {
-		return userID;
+	public String getKey() {
+		return key;
 	}
 
 	public String getPassword() {
@@ -101,7 +101,7 @@ public class UserInfo {
 	}
 
 	public String getEMail() {
-		return EMail;
+		return eMail;
 	}
 
 	public String getPhoneNum() {
@@ -109,14 +109,14 @@ public class UserInfo {
 	}
 
 	/* 指定された図書情報を返す. PersistentManager は外部で管理する． */
-	public boolean checkPassword(String password) {
-		try {
-			if (this.password == password)
-				return true;
-			return false;
-		} catch (JDOObjectNotFoundException e) {
-			return false;
-		}
-	}
+	// public boolean checkPassword(String password) {
+	// try {
+	// if (this.password == password)
+	// return true;
+	// return false;
+	// } catch (JDOObjectNotFoundException e) {
+	// return false;
+	// }
+	// }
 
 }
