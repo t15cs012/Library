@@ -1,12 +1,13 @@
 package gaebook.library;
 
-import gaebook.util.ImageEntity;
 import gaebook.util.*;
 
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.*;
 
@@ -34,13 +35,18 @@ public class CreateBookInfoHandler extends HttpServlet {
 
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		logger.info("CreateBookInfoHandler start.");
-		
+
 		Map<String, Object> map = readMultiform(req);
 		final String ISBN = (String) map.get("isbn");
 		final String name = (String) map.get("name");
+		final String kanaName = (String) map.get("kanaName");
 		final String author = (String) map.get("author");
+		final String kanaAuthor = (String) map.get("kanaAuthor");
 		final String publisher = (String) map.get("publisher");
-		
+		final String kanaPublisher = (String) map.get("kanaPublisher");
+
+		Context context = new VelocityContext();
+
 		final List<String> preservePic = new ArrayList<String>();
 		for (String key : map.keySet()) {
 			if (key.startsWith("preservePic"))
@@ -53,23 +59,76 @@ public class CreateBookInfoHandler extends HttpServlet {
 		}
 
 		List<ImageEntity> entity = new ArrayList<ImageEntity>();
-		for (TemporalImage tempImage : tempImages)
+		for (TemporalImage tempImage : tempImages) {
 			entity.add(new ImageEntity(tempImage.bytes, tempImage.name));
-
-		Context context = new VelocityContext();
-
-		if (!BookInfo.createBookInfoIfNotExist(ISBN, name, author, publisher, entity)) {
-			logger.info("CreateBookInfoHandler finish.");
 		}
 
-		logger.info("CreateBookInfoHandler redirect.");
-		/* iPhone とそれ以外でテンプレートを切り替え */
-		String template = req.getHeader("User-Agent").contains("iPhone") ? "WEB-INF/createBookInfo.iphone.vm"
-				: "WEB-INF/createBookInfo.vm";
+		context.put("ISBN", ISBN);
+		context.put("name", name);
+		context.put("kanaName", kanaName);
+		context.put("author", author);
+		context.put("kanaAuthor", kanaAuthor);
+		context.put("publisher", publisher);
+		context.put("kanaPublisher", kanaPublisher);
 
-		res.setContentType("text/html");
-		res.setCharacterEncoding("utf-8");
-		Renderer.render(template, context, res.getWriter());
+		boolean errorFormat = false; // 入力された情報にフォーマットエラーがあるか保存するフラグ
+
+		if (ISBN.isEmpty() || !checkFormatISBN(ISBN)) {
+			context.put("isbnError", "978で始まる13桁か12桁の数字で入力してください.");
+			errorFormat = true;
+		}
+
+		if (name.isEmpty() || name.length() < 1) {
+			context.put("nameError", "適切に入力してください.");
+			errorFormat = true;
+		}
+
+		if (author.isEmpty() || author.length() < 1) {
+			context.put("authorError", "適切に入力してください.");
+			errorFormat = true;
+		}
+
+		if (publisher.isEmpty() || publisher.length() < 1) {
+			context.put("publisherError", "適切に入力してください.");
+			errorFormat = true;
+		}
+
+		boolean registComplete = false; // 情報を登録できるか保存するフラグ
+
+		if (errorFormat) {
+		}
+		else if (!BookInfo.createBookInfoIfNotExist(ISBN, name, kanaName, author, kanaAuthor, publisher, kanaPublisher,
+				entity)) {
+			context.put("ISBNError", "指定されたユーザIDは利用できません．別の名前を試してみてください.");
+		}
+		else {
+			registComplete = true;
+		}
+
+		if (registComplete) {
+			logger.info("registComplete redirect.");
+
+			context.put("infoName", "図書情報");
+
+			/* iPhone とそれ以外でテンプレートを切り替え */
+			String template = req.getHeader("User-Agent").contains("iPhone") ? "WEB-INF/registComplete.iphone.vm"
+					: "WEB-INF/registComplete.vm";
+
+			res.setContentType("text/html");
+			res.setCharacterEncoding("utf-8");
+			Renderer.render(template, context, res.getWriter());
+		}
+		else {
+			logger.info("CreateBookInfoHandler redirect.");
+
+			/* iPhone とそれ以外でテンプレートを切り替え */
+			String template = req.getHeader("User-Agent").contains("iPhone") ? "WEB-INF/createBookInfo.iphone.vm"
+					: "WEB-INF/createBookInfo.vm";
+
+			res.setContentType("text/html");
+			res.setCharacterEncoding("utf-8");
+			Renderer.render(template, context, res.getWriter());
+		}
 	}
 
 	private Map<String, Object> readMultiform(HttpServletRequest req) throws IOException {
@@ -98,4 +157,10 @@ public class CreateBookInfoHandler extends HttpServlet {
 		}
 	}
 
+	/* ISBNコードのフォーマットチェック 13桁か12桁の978で始まる数字 */
+	public boolean checkFormatISBN(String str) {
+		Pattern p = Pattern.compile("^978\\d{9,10}$");
+		Matcher m = p.matcher(str);
+		return m.find();
+	}
 }

@@ -18,7 +18,7 @@
 	  #else
 	  	<td><input type="text" name="isbn" size="32"></td>
 	  #end
-	  #if ($isbnEroor)
+	  #if ($isbnError)
 	  	<td>$isbnError</td>
 	  #end
 	</tr>
@@ -29,8 +29,19 @@
 	  #else
 	  	<td><input type="text" name="name" size="32"></td>
 	  #end
-	  #if ($nameEroor)
+	  #if ($nameError)
 	  	<td>$nameError</td>
+	  #end
+	</tr>
+	<tr>
+	  <td>書籍名のふりがな</td>
+	  #if ($kanaName)
+	  	<td><input type="text" name="kanaName" value="$kanaName" size="32"></td>
+	  #else
+	  	<td><input type="text" name="kanaName" size="32"></td>
+	  #end
+	  #if ($kanaNameError)
+	  	<td>$kanaNameError</td>
 	  #end
 	</tr>
 	<tr>
@@ -40,8 +51,19 @@
 	  #else
 	  	<td><input type="text" name="author" size="32"></td>
 	  #end
-	  #if ($authorfError)
+	  #if ($authorError)
 	  	<td>$authorError</td>
+	  #end
+	</tr>
+	<tr>
+	  <td>著者名のふりがな</td>
+	  #if ($author)
+	  	<td><input type="text" name="kanaAuthor" value="$kanaAuthor" size="32"></td>
+	  #else
+	  	<td><input type="text" name="kanaAuthor" size="32"></td>
+	  #end
+	  #if ($kanaAuthorError)
+	  	<td>$akanaAuthorError</td>
 	  #end
 	</tr>
 	<tr>
@@ -56,16 +78,18 @@
 	  #end
 	</tr>
 	<tr>
+	  <td>出版社名のふりがな</td>
+	  #if ($kanaPublisher)
+	  	<td><input type="text" name="kanaPublisher" value="$kanaPublisher" size="32"></td>
+	  #else
+	  	<td><input type="text" name="kanaPublisher" size="32"></td>
+	  #end
+  	  #if ($kanaPublisherError)
+	  	<td>$kanaPublisherError</td>
+	  #end
+	</tr>
+	<tr>
 	  <td>表紙の画像</td>
-	  #if ($images)
-      	#foreach ($image in $images) 
-        <p>
-          <input type="checkbox" name="preservePic$velocityCount" 
-                 value="$image.getKeyAsString()" checked="true"/> 
-          $image.getName(); 
-        </p>
-      #end
-    #end  
     <td><input type="file" name="upfile"></td>
 	</tr>
 	<tr>

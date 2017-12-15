@@ -1,0 +1,19 @@
+<html>
+<head>
+<meta http-equiv="refresh"content="5; url=\"/home\""> 
+  <title> 登録完了 </title>
+</head>
+<body>
+    <div id="header">
+      <span style="font-size: 200%"> 登録完了 </span>
+  </div>
+  <br><br>
+  <div>
+    入力された $infoName の登録を完了しました.
+    <br>
+    5秒後にTOP画面にリダイレクトします.
+  </div>
+
+</body>
+</html>
+
